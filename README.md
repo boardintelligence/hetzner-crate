@@ -3,8 +3,8 @@
 A Pallet crate to work with dedicated servers at Hetzner data centre.
 
 A few utility functions to initialize a freshly provisioned dedicated
-Ubuntu server at Hetzner assuming all you have is the machines IP and
-first initial password.
+Ubuntu server at Hetzner assuming all you have is the machine's IP and
+first root password appointed by Hetzner.
 
 It let's you:
 * set the machine's timezone
