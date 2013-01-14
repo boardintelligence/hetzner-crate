@@ -20,11 +20,11 @@
   Assumes that the entry in the host config for this hostname includes
   the keys :first-rootpass, :rootpass and :timezone"
   [hostname]
-  (println (format "Initial setup for Hetzner host %s.." hostname))
   (helpers/ensure-nodelist-bindings)
-  (when (fsmop/failed?
-         (helpers/lift-one-node-and-phase hostname
+  (let [result (helpers/lift-one-node-and-phase hostname
                                           (get-root-user hostname :use-firstpass true)
                                           :hetzner-bootstrap
-                                          {}))
-    (throw (IllegalStateException. "Failed initial setup of Hetzner server!"))))
+                                          {})]
+    (when (fsmop/failed? result)
+      (throw (IllegalStateException. "Failed initial setup of Hetzner server!")))
+    result))
