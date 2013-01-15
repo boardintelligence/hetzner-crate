@@ -27,12 +27,16 @@
    admin-ssh-public-key-path (m-result (get-in host-config [:admin-user :ssh-public-key-path]))
    timezone (m-result (:timezone host-config))
    rootpass (m-result (:rootpass host-config))
-   ip (m-result (:ip host-config))]
+   ip (m-result (:ip host-config))
+   private-ip (m-result (:private-ip host-config))
+   private-hostname (m-result (:private-hostname host-config))]
 
   (set-timezone timezone)
 
   ;; /etc/hosts and hostname
   (etc-hosts/host ip node-hostname)
+  (if-not (nil? private-ip)
+    (etc-hosts/host private-ip private-hostname))
   etc-hosts/hosts
   (etc-hosts/set-hostname)
 

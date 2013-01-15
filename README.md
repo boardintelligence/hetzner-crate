@@ -19,7 +19,10 @@ and the format of hosts-config, apart from the standard ones, are:
 
     {"host.to.configure" {:first-rootpass "appointed password"
                           :rootpass "chosen password"
-                          :timezone "Etc/UTC"}}
+                          :timezone "Etc/UTC"
+                          :ip "1.2.3.4"
+                          :private-ip "10.1.1.1" ;; optional
+                          :private-hostname "host-int.to.configure" ;;optional }}
 
 The *hetzner-crate/api* namespace provides a utility function *hetzner-initial-setup*:
 
