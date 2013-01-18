@@ -49,10 +49,4 @@
   ;; admin user
   (if (= admin-username "root")
     (ssh-key/authorize-key "root" (slurp admin-ssh-public-key-path))
-    (admin-user/automated-admin-user admin-username admin-ssh-public-key-path))
-
-  ;; reboot system for changes to take effect
-  (actions/exec-checked-script
-   "reboot system"
-   (pipe (echo "reboot")
-         (at -M "now + 1 minute"))))
+    (admin-user/automated-admin-user admin-username admin-ssh-public-key-path)))
