@@ -18,7 +18,7 @@
 
 (defplan initial-setup
   []
-  (let [node-hostname crate/target-name
+  (let [node-hostname (crate/target-name)
         host-config (env/get-environment [:host-config node-hostname])
         admin-username (get-in host-config [:admin-user :username])
         admin-ssh-public-key-path (get-in host-config [:admin-user :ssh-public-key-path])
@@ -46,4 +46,7 @@
     ;; admin user
     (if (= admin-username "root")
       (ssh-key/authorize-key "root" (slurp admin-ssh-public-key-path))
-      (admin-user/automated-admin-user admin-username admin-ssh-public-key-path))))
+      (admin-user/automated-admin-user admin-username admin-ssh-public-key-path))
+
+    ;; update package manager
+    (actions/package-manager :update)))

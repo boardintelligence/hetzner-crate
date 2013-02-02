@@ -22,9 +22,9 @@
   [hostname]
   (helpers/ensure-nodelist-bindings)
   (let [result (helpers/lift-one-node-and-phase hostname
-                                          (get-root-user hostname :use-firstpass true)
-                                          :hetzner-bootstrap
-                                          {})]
+                                                (get-root-user hostname :use-firstpass true)
+                                                :hetzner-bootstrap
+                                                {})]
     (when (fsmop/failed? result)
       (throw (IllegalStateException. "Failed initial setup of Hetzner server!")))
     result))
