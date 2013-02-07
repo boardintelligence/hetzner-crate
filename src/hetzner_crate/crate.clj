@@ -34,7 +34,7 @@
     (etc-hosts/host ip node-hostname)
     (if-not (nil? private-ip)
       (etc-hosts/host private-ip private-hostname))
-    etc-hosts/hosts
+    (etc-hosts/hosts)
     (etc-hosts/set-hostname)
 
     ;; rootpass
