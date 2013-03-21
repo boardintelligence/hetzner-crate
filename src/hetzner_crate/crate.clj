@@ -14,7 +14,7 @@
   (actions/remote-file "/etc/timezone" :content timezone)
   (actions/exec-checked-script
    "update time zone"
-   (dpkg-reconfigure --frontend noninteractive tzdata)))
+   ("dpkg-reconfigure --frontend noninteractive tzdata")))
 
 (defplan initial-setup
   []
@@ -31,17 +31,17 @@
     (set-timezone timezone)
 
     ;; /etc/hosts and hostname
-    (etc-hosts/host ip node-hostname)
+    (etc-hosts/add-host ip [node-hostname])
     (if-not (nil? private-ip)
-      (etc-hosts/host private-ip private-hostname))
+      (etc-hosts/add-host private-ip [private-hostname]))
     (etc-hosts/hosts)
     (etc-hosts/set-hostname)
 
     ;; rootpass
     (actions/exec-checked-script
      "change root passwd"
-     (pipe (echo ~(format "root:%s" rootpass))
-           (chpasswd)))
+     (pipe ("echo" ~(format "root:%s" rootpass))
+           ("chpasswd")))
 
     ;; admin user
     (if (= admin-username "root")
