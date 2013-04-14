@@ -2,6 +2,7 @@
   "Crate with functions for Hetzner servers"
   (:require [pallet.actions :as actions]
             [pallet.crate :as crate]
+            [pallet.utils :as utils]
             [pallet.crate.automated-admin-user :as admin-user]
             [pallet.crate.etc-hosts :as etc-hosts]
             [pallet.crate.ssh-key :as ssh-key]
@@ -31,7 +32,12 @@
     (set-timezone timezone)
 
     ;; /etc/hosts and hostname
-    (etc-hosts/add-host ip [node-hostname])
+    (actions/exec-checked-script
+     "remote original hosts file"
+     ("rm -f /etc/hosts"))
+    (etc-hosts/add-host "127.0.0.1" ["localhost"])
+    ;; this is done by set-hostnmae!
+    ;;(etc-hosts/add-host ip [node-hostname])
     (if-not (nil? private-ip)
       (etc-hosts/add-host private-ip [private-hostname]))
     (etc-hosts/hosts)
@@ -50,3 +56,11 @@
 
     ;; update package manager
     (actions/package-manager :update)))
+
+(defplan set-hetzner-apt-mirror
+  []
+  ;; use the hetzner mirror
+  (actions/remote-file "/etc/apt/sources.list"
+                       :literal true
+                       :local-file (utils/resource-path "hetzner/sources.list"))
+  (actions/package-manager :update))

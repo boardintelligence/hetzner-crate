@@ -13,6 +13,4 @@
 
   :profiles {:dev
              {:dependencies [[com.palletops/pallet "0.8.0-beta.5" :classifier "tests"]]
-              :plugins [[com.palletops/pallet-lein "0.6.0-beta.7"]]}}
-
-  :local-repo-classpath true)
+              :plugins [[com.palletops/pallet-lein "0.6.0-beta.7"]]}})
